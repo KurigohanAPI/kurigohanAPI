@@ -3,54 +3,303 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Profile</title>
+  <title>Modrinth Style Portal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body {
-      font-family: 'Helvetica Neue', Arial, sans-serif;
-      background-color: #1a1c23;
-      color: #ffffff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+    :root {
+      --bg-dark: #111215;
+      --bg-card: #1b1c20;
+      --bg-card-hover: #24262c;
+      --brand-green: #1bd96a;
+      --brand-green-hover: #17be5d;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --border-color: #2e3038;
+    }
+
+    * {
+      box-sizing: border-box;
       margin: 0;
+      padding: 0;
     }
-    .card {
-      background-color: #262830;
-      padding: 2rem;
-      border-radius: 12px;
-      text-align: center;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-      max-width: 400px;
-      width: 90%;
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.6;
     }
-    h1 { margin-bottom: 0.5rem; font-size: 1.8rem; }
-    p { color: #b9bbbe; margin-bottom: 1.5rem; }
-    .links a {
-      display: block;
-      background-color: #5865F2;
-      color: white;
+
+    /* ヘッダー/ナビゲーション */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid var(--border-color);
+      background-color: rgba(17, 18, 21, 0.8);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: #fff;
       text-decoration: none;
-      padding: 0.8rem 1rem;
-      border-radius: 6px;
-      margin: 0.5rem 0;
-      font-weight: bold;
-      transition: background-color 0.2s;
     }
-    .links a:hover {
-      background-color: #4752C4;
+
+    .logo-icon {
+      color: var(--brand-green);
+      font-size: 1.5rem;
+    }
+
+    nav {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: var(--text-main);
+    }
+
+    /* ヒーローセクション（メイン表示） */
+    .hero {
+      text-align: center;
+      padding: 5rem 1rem 3rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      letter-spacing: -0.025em;
+    }
+
+    .hero h1 span {
+      color: var(--brand-green);
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+
+    /* 検索バー（Modrinth特徴的なパーツ） */
+    .search-box {
+      display: flex;
+      align-items: center;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 0.75rem 1.25rem;
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      transition: border-color 0.2s;
+    }
+
+    .search-box:focus-within {
+      border-color: var(--brand-green);
+    }
+
+    .search-box i {
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      margin-right: 0.75rem;
+    }
+
+    .search-box input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-main);
+      font-size: 1rem;
+      width: 100%;
+    }
+
+    /* メインコンテンツ（カードグリッド） */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: transform 0.2s, background-color 0.2s, border-color 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      background-color: var(--bg-card-hover);
+      border-color: #3f424e;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      background-color: #2a2c34;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: var(--brand-green);
+    }
+
+    .card-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .card-desc {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      flex-grow: 1;
+    }
+
+    .card-footer {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .tag {
+      background-color: #2a2c34;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    /* フッター */
+    footer {
+      text-align: center;
+      padding: 3rem 1rem;
+      border-top: 1px solid var(--border-color);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: 4rem;
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>ようこそ！</h1>
-    <p>Discordプロフィール用のWebサイトです。</p>
-    <div class="links">
-      <a href="https://x.com" target="_blank">X (旧Twitter)</a>
-      <a href="https://youtube.com" target="_blank">YouTube</a>
-      <a href="https://discord.gg/" target="_blank">Discord サーバー</a>
+
+  <!-- ヘッダー -->
+  <header>
+    <a href="#" class="logo">
+      <i class="fa-solid fa-cube logo-icon"></i>
+      <span>My Portal</span>
+    </a>
+    <nav>
+      <a href="#">Projects</a>
+      <a href="#">Mods</a>
+      <a href="#">Discord</a>
+    </nav>
+  </header>
+
+  <!-- ヒーローセクション -->
+  <div class="hero">
+    <h1>The open source <span>modding</span> host.</h1>
+    <p>プロジェクトや制作物をまとめたポートフォリオサイトです。</p>
+    
+    <!-- 検索バー -->
+    <div class="search-box">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" placeholder="Search projects, mods, or links...">
     </div>
   </div>
+
+  <!-- コンテンツ領域 -->
+  <div class="container">
+    <h2 class="section-title">Featured Projects</h2>
+    
+    <div class="grid">
+      <!-- カード 1 -->
+      <a href="https://github.com" target="_blank" class="card">
+        <div class="card-header">
+          <div class="card-icon"><i class="fa-solid fa-code"></i></div>
+          <div>
+            <div class="card-title">Kurichan API</div>
+            <span class="tag">API</span>
+          </div>
+        </div>
+        <p class="card-desc">自作のAPIやDiscord Botのバックエンドサービスです。</p>
+      </a>
+
+      <!-- カード 2 -->
+      <a href="https://discord.gg" target="_blank" class="card">
+        <div class="card-header">
+          <div class="card-icon"><i class="fa-brands fa-discord"></i></div>
+          <div>
+            <div class="card-title">Discord Community</div>
+            <span class="tag">Community</span>
+          </div>
+        </div>
+        <p class="card-desc">みんなで話したり、開発情報を共有するDiscordサーバーです。</p>
+      </a>
+
+      <!-- カード 3 -->
+      <a href="https://youtube.com" target="_blank" class="card">
+        <div class="card-header">
+          <div class="card-icon"><i class="fa-brands fa-youtube"></i></div>
+          <div>
+            <div class="card-title">YouTube Channel</div>
+            <span class="tag">Media</span>
+          </div>
+        </div>
+        <p class="card-desc">制作動画や配信活動を行っているチャンネルです。</p>
+      </a>
+    </div>
+  </div>
+
+  <!-- フッター -->
+  <footer>
+    <p>&copy; 2026 My Portal. Powered by GitHub Pages.</p>
+  </footer>
+
 </body>
 </html>
