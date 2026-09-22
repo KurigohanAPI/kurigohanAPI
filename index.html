@@ -17,12 +17,7 @@
       --border-color: #2e3038;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background-color: var(--bg-dark);
@@ -30,14 +25,14 @@
       line-height: 1.6;
     }
 
-    /* ヘッダー/ナビゲーション */
+    /* ヘッダー */
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 1rem 2rem;
       border-bottom: 1px solid var(--border-color);
-      background-color: rgba(17, 18, 21, 0.8);
+      background-color: rgba(17, 18, 21, 0.9);
       backdrop-filter: blur(8px);
       position: sticky;
       top: 0;
@@ -52,254 +47,222 @@
       font-size: 1.25rem;
       color: #fff;
       text-decoration: none;
+      cursor: pointer;
     }
 
-    .logo-icon {
-      color: var(--brand-green);
-      font-size: 1.5rem;
-    }
+    .logo-icon { color: var(--brand-green); font-size: 1.5rem; }
 
-    nav {
-      display: flex;
-      gap: 1.5rem;
-    }
-
-    nav a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-
-    nav a:hover {
-      color: var(--text-main);
-    }
-
-    /* ヒーローセクション（メイン表示） */
-    .hero {
-      text-align: center;
-      padding: 5rem 1rem 3rem;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .hero h1 {
-      font-size: 3rem;
-      font-weight: 800;
-      margin-bottom: 1rem;
-      letter-spacing: -0.025em;
-    }
-
-    .hero h1 span {
-      color: var(--brand-green);
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      color: var(--text-muted);
-      margin-bottom: 2rem;
-    }
-
-    /* 検索バー（Modrinth特徴的なパーツ） */
-    .search-box {
-      display: flex;
-      align-items: center;
-      background-color: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 0.75rem 1.25rem;
-      max-width: 600px;
-      margin: 0 auto 2.5rem;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-      transition: border-color 0.2s;
-    }
-
-    .search-box:focus-within {
-      border-color: var(--brand-green);
-    }
-
-    .search-box i {
-      color: var(--text-muted);
-      font-size: 1.2rem;
-      margin-right: 0.75rem;
-    }
-
-    .search-box input {
-      background: transparent;
+    nav { display: flex; gap: 1rem; }
+    .nav-btn {
+      background: none;
       border: none;
-      outline: none;
-      color: var(--text-main);
+      color: var(--text-muted);
       font-size: 1rem;
-      width: 100%;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover, .nav-btn.active {
+      color: var(--text-main);
+      background-color: var(--bg-card-hover);
     }
 
-    /* メインコンテンツ（カードグリッド） */
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 2rem 1rem;
-    }
+    /* メインコンテナ */
+    .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1rem; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
 
-    .section-title {
-      font-size: 1.5rem;
-      margin-bottom: 1.5rem;
-      font-weight: 700;
-    }
+    /* ヒーローセクション */
+    .hero { text-align: center; padding: 3rem 1rem 2rem; }
+    .hero h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; }
+    .hero h1 span { color: var(--brand-green); }
+    .hero p { color: var(--text-muted); margin-bottom: 2rem; }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 1.5rem;
-    }
-
+    /* グリッド ＆ カード */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
     .card {
       background-color: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: 12px;
       padding: 1.5rem;
-      text-decoration: none;
-      color: inherit;
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
-      transition: transform 0.2s, background-color 0.2s, border-color 0.2s;
+      transition: transform 0.2s, background-color 0.2s;
     }
-
-    .card:hover {
-      transform: translateY(-4px);
-      background-color: var(--bg-card-hover);
-      border-color: #3f424e;
-    }
-
-    .card-header {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
+    .card:hover { transform: translateY(-4px); background-color: var(--bg-card-hover); }
+    .card-header { display: flex; align-items: center; gap: 1rem; }
     .card-icon {
-      width: 48px;
-      height: 48px;
-      background-color: #2a2c34;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      color: var(--brand-green);
+      width: 48px; height: 48px;
+      background-color: #2a2c34; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; color: var(--brand-green);
     }
-
-    .card-title {
-      font-weight: 700;
-      font-size: 1.1rem;
-    }
-
-    .card-desc {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      flex-grow: 1;
-    }
-
-    .card-footer {
-      display: flex;
-      gap: 0.5rem;
+    .card-title { font-weight: 700; font-size: 1.1rem; }
+    .card-desc { color: var(--text-muted); font-size: 0.9rem; flex-grow: 1; }
+    
+    .btn-download, .btn-read {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      background-color: var(--brand-green); color: #000;
+      font-weight: 700; padding: 0.6rem 1rem; border-radius: 6px;
+      text-decoration: none; transition: background-color 0.2s;
       margin-top: 0.5rem;
     }
+    .btn-download:hover, .btn-read:hover { background-color: var(--brand-green-hover); }
 
     .tag {
-      background-color: #2a2c34;
-      color: var(--text-muted);
-      font-size: 0.75rem;
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-      font-weight: 600;
+      background-color: #2a2c34; color: var(--text-muted);
+      font-size: 0.75rem; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 600;
     }
+
+    /* ブログ用デザイン */
+    .blog-date { font-size: 0.8rem; color: var(--text-muted); }
+
+    /* 利用規約ドキュメント */
+    .terms-box {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .terms-box h2 { font-size: 1.8rem; margin-bottom: 1.5rem; color: var(--brand-green); }
+    .terms-box h3 { font-size: 1.2rem; margin: 1.5rem 0 0.5rem; }
+    .terms-box p, .terms-box ul { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem; }
+    .terms-box ul { padding-left: 1.5rem; }
 
     /* フッター */
     footer {
-      text-align: center;
-      padding: 3rem 1rem;
+      text-align: center; padding: 3rem 1rem;
       border-top: 1px solid var(--border-color);
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      margin-top: 4rem;
+      color: var(--text-muted); font-size: 0.9rem; margin-top: 4rem;
     }
   </style>
 </head>
 <body>
 
-  <!-- ヘッダー -->
+  <!-- ヘッダーナビゲーション -->
   <header>
-    <a href="#" class="logo">
+    <div class="logo" onclick="switchTab('mods')">
       <i class="fa-solid fa-cube logo-icon"></i>
       <span>My Portal</span>
-    </a>
+    </div>
     <nav>
-      <a href="#">Projects</a>
-      <a href="#">Mods</a>
-      <a href="#">Discord</a>
+      <button class="nav-btn active" id="btn-mods" onclick="switchTab('mods')"><i class="fa-solid fa-puzzle-piece"></i> Mods / Addons</button>
+      <button class="nav-btn" id="btn-blog" onclick="switchTab('blog')"><i class="fa-solid fa-newspaper"></i> Blog</button>
+      <button class="nav-btn" id="btn-terms" onclick="switchTab('terms')"><i class="fa-solid fa-file-contract"></i> 利用規約</button>
     </nav>
   </header>
 
-  <!-- ヒーローセクション -->
-  <div class="hero">
-    <h1>The open source <span>modding</span> host.</h1>
-    <p>プロジェクトや制作物をまとめたポートフォリオサイトです。</p>
-    
-    <!-- 検索バー -->
-    <div class="search-box">
-      <i class="fa-solid fa-magnifying-glass"></i>
-      <input type="text" placeholder="Search projects, mods, or links...">
-    </div>
-  </div>
-
-  <!-- コンテンツ領域 -->
   <div class="container">
-    <h2 class="section-title">Featured Projects</h2>
-    
-    <div class="grid">
-      <!-- カード 1 -->
-      <a href="https://github.com" target="_blank" class="card">
-        <div class="card-header">
-          <div class="card-icon"><i class="fa-solid fa-code"></i></div>
-          <div>
-            <div class="card-title">Kurichan API</div>
-            <span class="tag">API</span>
-          </div>
-        </div>
-        <p class="card-desc">自作のAPIやDiscord Botのバックエンドサービスです。</p>
-      </a>
 
-      <!-- カード 2 -->
-      <a href="https://discord.gg" target="_blank" class="card">
-        <div class="card-header">
-          <div class="card-icon"><i class="fa-brands fa-discord"></i></div>
-          <div>
-            <div class="card-title">Discord Community</div>
-            <span class="tag">Community</span>
-          </div>
-        </div>
-        <p class="card-desc">みんなで話したり、開発情報を共有するDiscordサーバーです。</p>
-      </a>
+    <!-- タブ1: Mod / アドオン配布画面 -->
+    <div id="tab-mods" class="tab-content active">
+      <div class="hero">
+        <h1>Mods & <span>Addons</span></h1>
+        <p>自作Mod・アドオン・ツールの配布ページです。</p>
+      </div>
 
-      <!-- カード 3 -->
-      <a href="https://youtube.com" target="_blank" class="card">
-        <div class="card-header">
-          <div class="card-icon"><i class="fa-brands fa-youtube"></i></div>
-          <div>
-            <div class="card-title">YouTube Channel</div>
-            <span class="tag">Media</span>
+      <div class="grid">
+        <!-- Modアイテム 1 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon"><i class="fa-solid fa-box"></i></div>
+            <div>
+              <div class="card-title">サンプル Mod 1</div>
+              <span class="tag">Minecraft Java</span> <span class="tag">v1.20.1</span>
+            </div>
           </div>
+          <p class="card-desc">便利な機能を追加するオリジナルのModです。ゲーム内の操作性を向上させます。</p>
+          <!-- Direct download or MediaFire / Google Drive link -->
+          <a href="#" class="btn-download"><i class="fa-solid fa-download"></i> ダウンロード (.jar)</a>
         </div>
-        <p class="card-desc">制作動画や配信活動を行っているチャンネルです。</p>
-      </a>
+
+        <!-- Addonアイテム 2 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+            <div>
+              <div class="card-title">カスタム アドオン 2</div>
+              <span class="tag">Minecraft Bedrock</span>
+            </div>
+          </div>
+          <p class="card-desc">統合版（スマホ・Win10・Switch等）向けの新アイテム・モブ追加アドオンです。</p>
+          <a href="#" class="btn-download"><i class="fa-solid fa-download"></i> ダウンロード (.mcaddon)</a>
+        </div>
+      </div>
     </div>
+
+    <!-- タブ2: ブログ画面 -->
+    <div id="tab-blog" class="tab-content">
+      <div class="hero">
+        <h1>Developer <span>Blog</span></h1>
+        <p>開発進捗や更新情報をお知らせします。</p>
+      </div>
+
+      <div class="grid">
+        <!-- ブログ記事 1 -->
+        <div class="card">
+          <span class="blog-date">2026年9月22日</span>
+          <div class="card-title">ポータルサイトを開設しました！</div>
+          <p class="card-desc">GitHub Pagesを利用してMod開発・配布用の公式ポータルサイトをオープンしました。今後のアップデートにご期待ください！</p>
+        </div>
+
+        <!-- ブログ記事 2 -->
+        <div class="card">
+          <span class="blog-date">2026年9月20日</span>
+          <div class="card-title">Mod v1.0.0 アプデ情報</div>
+          <p class="card-desc">バグ修正および新機能の追加を行いました。詳細は配布ページのダウンロードリンクよりご確認ください。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- タブ3: 利用規約画面 -->
+    <div id="tab-terms" class="tab-content">
+      <div class="terms-box">
+        <h2>利用規約 (Terms of Service)</h2>
+        <p>本サイトで配布されているMod、アドオン、ツール（以下「コンテンツ」）を利用するにあたり、以下の規約を遵守してください。</p>
+
+        <h3>1. 許可されること（OK）</h3>
+        <ul>
+          <li>個人利用およびマルチプレイサーバーでの使用</li>
+          <li>YouTubeや配信等での動画投稿・商用利用（動画の収益化OK）</li>
+          <li>本サイトのURLを明記した上での紹介</li>
+        </ul>
+
+        <h3>2. 禁止事項（NG）</h3>
+        <ul>
+          <li>コンテンツの二次配布（別のサイトへ直接ファイルを再アップロードすること）</li>
+          <li>自作発言（作者を偽る行為）</li>
+          <li>自作Mod/アドオンのファイル単体での有料販売</li>
+        </ul>
+
+        <h3>3. 免責事項</h3>
+        <p>当コンテンツの使用により発生したいかなるトラブル・損害（データ破損、サーバーエラー等）について、制作者は一切の責任を負いません。必ずバックアップを取ってご利用ください。</p>
+      </div>
+    </div>
+
   </div>
 
-  <!-- フッター -->
   <footer>
     <p>&copy; 2026 My Portal. Powered by GitHub Pages.</p>
   </footer>
 
+  <!-- タブ切り替えJavaScript -->
+  <script>
+    function switchTab(tabName) {
+      // 全タブコンテンツを非表示
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      // 全ボタンのActive解除
+      document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+
+      // 選択したタブとボタンを有効化
+      document.getElementById('tab-' + tabName).classList.add('active');
+      document.getElementById('btn-' + tabName).classList.add('active');
+    }
+  </script>
 </body>
 </html>
