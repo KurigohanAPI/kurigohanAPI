@@ -5,125 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Halloween🎃</title>
     <style>
+        /* 初期状態のポップなスタイル */
         body {
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             background-color: #ffe6cc;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
+            font-family: 'Segoe UI', Meiryo, sans-serif;
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; overflow: hidden;
             transition: background-color 0.1s;
         }
 
-        /* 通常時のポップなカード */
         .card {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-            position: relative;
-            z-index: 10;
+            background: white; padding: 40px; border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center;
+            max-width: 400px; width: 90%; position: relative; z-index: 10;
         }
 
         h1 { color: #ff6600; margin-bottom: 30px; }
-
-        .btn-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            margin-top: 30px;
-            height: 60px;
-            position: relative;
-        }
-
-        button {
-            padding: 12px 35px;
-            font-size: 18px;
-            font-weight: bold;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: transform 0.1s;
-        }
-
+        .btn-container { display: flex; justify-content: space-around; align-items: center; margin-top: 30px; height: 60px; position: relative; }
+        button { padding: 12px 35px; font-size: 18px; font-weight: bold; border: none; border-radius: 50px; cursor: pointer; }
         .btn-yes { background-color: #ff6600; color: white; }
-        
-        /* 逃げるボタンの初期スタイル */
-        .btn-no {
-            background-color: #333;
-            color: white;
-            position: absolute;
-            left: 55%;
+        .btn-no { background-color: #333; color: white; position: absolute; left: 55%; }
+
+        /* --- ここからMicrosoft偽警告用のスタイル --- */
+        .scam-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: #004b87; /* Windowsの濃い青色 */
+            color: #ffffff; z-index: 9999;
+            display: none; box-sizing: border-box; padding: 10% 15%;
+            font-family: 'Segoe UI', Arial, sans-serif; text-align: left;
         }
 
-        /* 画面クラッシュ（大人が焦る演出） */
-        @keyframes glitch {
-            0% { transform: translate(0) scale(1); filter: hue-rotate(0deg); }
-            10% { transform: translate(-10px, 5px) scale(1.1); filter: hue-rotate(90deg); }
-            20% { transform: translate(10px, -5px) scale(0.9); }
-            30% { transform: translate(-5px, -10px) filter: invert(1); }
-            40% { transform: translate(5px, 10px); }
-            50% { transform: translate(0); }
-        }
-        .glitch-active {
-            animation: glitch 0.3s infinite;
-        }
+        .scam-title { font-size: 32px; font-weight: 300; margin-bottom: 20px; color: #ffcc00; }
+        .scam-box { border: 2px solid #ffffff; padding: 20px; margin: 20px 0; background-color: rgba(255,255,255,0.1); font-family: monospace; }
+        .error-code { color: #ff4d4d; font-weight: bold; }
+        .phone-number { font-size: 36px; color: #fff; background: #cc0000; padding: 10px 20px; display: inline-block; margin: 20px 0; font-weight: bold; animation: blink 1s infinite; }
 
-        /* 恐怖の全画面ジャンプスケア */
-        .scare-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: #000;
-            color: #ff0000;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            font-size: 8vw;
-            font-weight: bold;
-            letter-spacing: 10px;
-            opacity: 0;
-            pointer-events: none;
-        }
-        .scare-active { opacity: 1; pointer-events: auto; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
     </style>
 </head>
 <body>
 
+    <!-- 最初に見せる可愛い画面 -->
     <div class="card" id="mainCard">
-        <h1 id="titleText">ハロウィンパーティー<br>一緒にいく？ 🎃</h1>
+        <h1>ハロウィンパーティー<br>一緒にいく？ 🎃</h1>
         <div class="btn-container">
             <button class="btn-yes" id="yesBtn">はい 🕸</button>
             <button class="btn-no" id="noBtn">いいえ 🦇</button>
         </div>
     </div>
 
-    <!-- ドッキリ用全画面 -->
-    <div class="scare-overlay" id="scareOverlay">
-        <div>逃 ゲ ラ レ ナ イ</div>
-        <div style="font-size: 3vw; margin-top: 20px; color: #fff;">SYSTEM ERROR: CRITICAL FAILURE</div>
+    <!-- 脅迫発動時の偽Microsoftサポート画面 -->
+    <div class="scam-overlay" id="scamOverlay">
+        <div class="scam-title">■ Windows Defender セキュリティセンター</div>
+        <h2>ユーザーのPCで重大な脅威が検出されました</h2>
+        <p>このPCへのアクセスは、セキュリティ上の理由からブロックされました。</p>
+        
+        <div class="scam-box">
+            対象の脅威: トロイの木馬スパイウェア (Trojan.Spyware.Win32)<br>
+            現在の状態: データ漏洩の危険性あり (個人情報、パスワード、銀行口座情報)<br>
+            <span class="error-code">エラーコード: #0x80070422 (Critical Failure)</span>
+        </div>
+
+        <p>Windowsの保護を有効にし、データを復旧するには、直ちにMicrosoftテクニカルサポートにお問い合わせください。</p>
+        <p style="font-weight: bold;">フリーダイヤル（24時間受付）:</p>
+        <div class="phone-number">050-XXXX-XXXX (Microsoft サポート)</div>
+        <p style="font-size: 14px; color: #ccc;">※注意: この画面を閉じたりPCを再起動すると、システムファイルが破損し、すべてのデータが消去される可能性があります。</p>
     </div>
 
     <script>
         const noBtn = document.getElementById('noBtn');
         const yesBtn = document.getElementById('yesBtn');
         const mainCard = document.getElementById('mainCard');
-        const scareOverlay = document.getElementById('scareOverlay');
+        const scamOverlay = document.getElementById('scamOverlay');
         
         let escapeCount = 0;
 
-        // 1. ボタンが逃げる仕掛け（3回まで逃げる）
+        // 1. ボタンが逃げる仕掛け
         noBtn.addEventListener('mouseover', () => {
-            if (escapeCount >= 3) return; // 3回逃げたらそれ以上は逃げない（油断させる）
+            if (escapeCount >= 3) return; // 3回逃げたら固定
 
-            // 画面内のランダムな位置に移動
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 40) + 20;
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 40) + 20;
             
@@ -134,47 +95,42 @@
             escapeCount++;
         });
 
-        // 2. ホラー発動関数（偽エラー画面 ＋ 大音量ノイズ ＋ 恐怖画面）
-        function triggerScare() {
-            // 画面をガタガタ揺らす（大人が「PCが壊れた！？」と焦る演出）
-            document.body.classList.add('glitch-active');
-            document.body.style.backgroundColor = '#000';
+        // 2. 偽サポート詐欺画面の発動
+        function triggerScam() {
             mainCard.style.display = 'none';
+            scamOverlay.style.display = 'block';
+            document.body.style.backgroundColor = '#004b87';
 
-            // ブラウザの機能で人工的に不気味な大音量ノイズを生成（mp3ファイル不要）
-            try {
-                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const bufferSize = audioCtx.sampleRate * 2; // 2秒間
-                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-                const data = buffer.getChannelData(0);
-                // ホワイトノイズの生成
-                for (let i = 0; i < bufferSize; i++) {
-                    data[i] = Math.random() * 2 - 1;
-                }
-                const noise = audioCtx.createBufferSource();
-                noise.buffer = buffer;
-                
-                // 音質を不気味に加工（ローパスフィルタ）
-                const filter = audioCtx.createBiquadFilter();
-                filter.type = 'lowpass';
-                filter.frequency.setValueAtTime(800, audioCtx.currentTime);
-
-                noise.connect(filter);
-                filter.connect(audioCtx.destination);
-                noise.start();
-            } catch (e) {
-                console.log("Audio play failed");
+            // 大人が一番焦る「全画面表示（F11）」をJavaScriptで強制発動
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            } else if (document.documentElement.mozRequestFullScreen) { /* Firefox */
+                document.documentElement.mozRequestFullScreen();
+            } else if (document.documentElement.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+                document.documentElement.webkitRequestFullscreen();
+            } else if (document.documentElement.msRequestFullscreen) { /* IE/Edge */
+                document.documentElement.msRequestFullscreen();
             }
 
-            // 0.3秒後に一気に恐怖画面を表示（ジャンプスケア）
-            setTimeout(() => {
-                scareOverlay.classList.add('scare-active');
-            }, 300);
+            // 電子警告音（ピーピーピー）をシンセサイザー機能で鳴らす
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                setInterval(() => {
+                    let osc = audioCtx.createOscillator();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(1000, audioCtx.currentTime); // 高い警告音
+                    osc.connect(audioCtx.destination);
+                    osc.start();
+                    setTimeout(() => osc.stop(), 200);
+                }, 400);
+            } catch (e) {
+                console.log("Audio failed");
+            }
         }
 
-        // 3. 発動トリガー（諦めて「はい」を押すか、4回目に「いいえ」をクリックした時）
-        yesBtn.addEventListener('click', triggerScare);
-        noBtn.addEventListener('click', triggerScare);
+        // 3. イベント登録
+        yesBtn.addEventListener('click', triggerScam);
+        noBtn.addEventListener('click', triggerScam);
     </script>
 </body>
 </html>
