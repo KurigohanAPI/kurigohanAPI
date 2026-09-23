@@ -1,268 +1,180 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Modrinth Style Portal</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    :root {
-      --bg-dark: #111215;
-      --bg-card: #1b1c20;
-      --bg-card-hover: #24262c;
-      --brand-green: #1bd96a;
-      --brand-green-hover: #17be5d;
-      --text-main: #f3f4f6;
-      --text-muted: #9ca3af;
-      --border-color: #2e3038;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Halloween🎃</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffe6cc;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            transition: background-color 0.1s;
+        }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: var(--bg-dark);
-      color: var(--text-main);
-      line-height: 1.6;
-    }
+        /* 通常時のポップなカード */
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+            z-index: 10;
+        }
 
-    /* ヘッダー */
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      border-bottom: 1px solid var(--border-color);
-      background-color: rgba(17, 18, 21, 0.9);
-      backdrop-filter: blur(8px);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
+        h1 { color: #ff6600; margin-bottom: 30px; }
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-weight: 800;
-      font-size: 1.25rem;
-      color: #fff;
-      text-decoration: none;
-      cursor: pointer;
-    }
+        .btn-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 30px;
+            height: 60px;
+            position: relative;
+        }
 
-    .logo-icon { color: var(--brand-green); font-size: 1.5rem; }
+        button {
+            padding: 12px 35px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
 
-    nav { display: flex; gap: 1rem; }
-    .nav-btn {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      font-size: 1rem;
-      font-weight: 600;
-      padding: 0.5rem 1rem;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .nav-btn:hover, .nav-btn.active {
-      color: var(--text-main);
-      background-color: var(--bg-card-hover);
-    }
+        .btn-yes { background-color: #ff6600; color: white; }
+        
+        /* 逃げるボタンの初期スタイル */
+        .btn-no {
+            background-color: #333;
+            color: white;
+            position: absolute;
+            left: 55%;
+        }
 
-    /* メインコンテナ */
-    .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1rem; }
-    .tab-content { display: none; }
-    .tab-content.active { display: block; }
+        /* 画面クラッシュ（大人が焦る演出） */
+        @keyframes glitch {
+            0% { transform: translate(0) scale(1); filter: hue-rotate(0deg); }
+            10% { transform: translate(-10px, 5px) scale(1.1); filter: hue-rotate(90deg); }
+            20% { transform: translate(10px, -5px) scale(0.9); }
+            30% { transform: translate(-5px, -10px) filter: invert(1); }
+            40% { transform: translate(5px, 10px); }
+            50% { transform: translate(0); }
+        }
+        .glitch-active {
+            animation: glitch 0.3s infinite;
+        }
 
-    /* ヒーローセクション */
-    .hero { text-align: center; padding: 3rem 1rem 2rem; }
-    .hero h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; }
-    .hero h1 span { color: var(--brand-green); }
-    .hero p { color: var(--text-muted); margin-bottom: 2rem; }
-
-    /* グリッド ＆ カード */
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
-    .card {
-      background-color: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      transition: transform 0.2s, background-color 0.2s;
-    }
-    .card:hover { transform: translateY(-4px); background-color: var(--bg-card-hover); }
-    .card-header { display: flex; align-items: center; gap: 1rem; }
-    .card-icon {
-      width: 48px; height: 48px;
-      background-color: #2a2c34; border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.5rem; color: var(--brand-green);
-    }
-    .card-title { font-weight: 700; font-size: 1.1rem; }
-    .card-desc { color: var(--text-muted); font-size: 0.9rem; flex-grow: 1; }
-    
-    .btn-download, .btn-read {
-      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
-      background-color: var(--brand-green); color: #000;
-      font-weight: 700; padding: 0.6rem 1rem; border-radius: 6px;
-      text-decoration: none; transition: background-color 0.2s;
-      margin-top: 0.5rem;
-    }
-    .btn-download:hover, .btn-read:hover { background-color: var(--brand-green-hover); }
-
-    .tag {
-      background-color: #2a2c34; color: var(--text-muted);
-      font-size: 0.75rem; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 600;
-    }
-
-    /* ブログ用デザイン */
-    .blog-date { font-size: 0.8rem; color: var(--text-muted); }
-
-    /* 利用規約ドキュメント */
-    .terms-box {
-      background-color: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 2rem;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    .terms-box h2 { font-size: 1.8rem; margin-bottom: 1.5rem; color: var(--brand-green); }
-    .terms-box h3 { font-size: 1.2rem; margin: 1.5rem 0 0.5rem; }
-    .terms-box p, .terms-box ul { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem; }
-    .terms-box ul { padding-left: 1.5rem; }
-
-    /* フッター */
-    footer {
-      text-align: center; padding: 3rem 1rem;
-      border-top: 1px solid var(--border-color);
-      color: var(--text-muted); font-size: 0.9rem; margin-top: 4rem;
-    }
-  </style>
+        /* 恐怖の全画面ジャンプスケア */
+        .scare-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: #000;
+            color: #ff0000;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 8vw;
+            font-weight: bold;
+            letter-spacing: 10px;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .scare-active { opacity: 1; pointer-events: auto; }
+    </style>
 </head>
 <body>
 
-  <!-- ヘッダーナビゲーション -->
-  <header>
-    <div class="logo" onclick="switchTab('mods')">
-      <i class="fa-solid fa-cube logo-icon"></i>
-      <span>My Portal</span>
-    </div>
-    <nav>
-      <button class="nav-btn active" id="btn-mods" onclick="switchTab('mods')"><i class="fa-solid fa-puzzle-piece"></i> Mods / Addons</button>
-      <button class="nav-btn" id="btn-blog" onclick="switchTab('blog')"><i class="fa-solid fa-newspaper"></i> Blog</button>
-      <button class="nav-btn" id="btn-terms" onclick="switchTab('terms')"><i class="fa-solid fa-file-contract"></i> 利用規約</button>
-    </nav>
-  </header>
-
-  <div class="container">
-
-    <!-- タブ1: Mod / アドオン配布画面 -->
-    <div id="tab-mods" class="tab-content active">
-      <div class="hero">
-        <h1>Mods & <span>Addons</span></h1>
-        <p>自作Mod・アドオン・ツールの配布ページです。</p>
-      </div>
-
-      <div class="grid">
-        <!-- Modアイテム 1 -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-icon"><i class="fa-solid fa-box"></i></div>
-            <div>
-              <div class="card-title">サンプル Mod 1</div>
-              <span class="tag">Minecraft Java</span> <span class="tag">v1.20.1</span>
-            </div>
-          </div>
-          <p class="card-desc">便利な機能を追加するオリジナルのModです。ゲーム内の操作性を向上させます。</p>
-          <!-- Direct download or MediaFire / Google Drive link -->
-          <a href="#" class="btn-download"><i class="fa-solid fa-download"></i> ダウンロード (.jar)</a>
+    <div class="card" id="mainCard">
+        <h1 id="titleText">ハロウィンパーティー<br>一緒にいく？ 🎃</h1>
+        <div class="btn-container">
+            <button class="btn-yes" id="yesBtn">はい 🕸</button>
+            <button class="btn-no" id="noBtn">いいえ 🦇</button>
         </div>
-
-        <!-- Addonアイテム 2 -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-            <div>
-              <div class="card-title">カスタム アドオン 2</div>
-              <span class="tag">Minecraft Bedrock</span>
-            </div>
-          </div>
-          <p class="card-desc">統合版（スマホ・Win10・Switch等）向けの新アイテム・モブ追加アドオンです。</p>
-          <a href="#" class="btn-download"><i class="fa-solid fa-download"></i> ダウンロード (.mcaddon)</a>
-        </div>
-      </div>
     </div>
 
-    <!-- タブ2: ブログ画面 -->
-    <div id="tab-blog" class="tab-content">
-      <div class="hero">
-        <h1>Developer <span>Blog</span></h1>
-        <p>開発進捗や更新情報をお知らせします。</p>
-      </div>
-
-      <div class="grid">
-        <!-- ブログ記事 1 -->
-        <div class="card">
-          <span class="blog-date">2026年9月22日</span>
-          <div class="card-title">ポータルサイトを開設しました！</div>
-          <p class="card-desc">GitHub Pagesを利用してMod開発・配布用の公式ポータルサイトをオープンしました。今後のアップデートにご期待ください！</p>
-        </div>
-
-        <!-- ブログ記事 2 -->
-        <div class="card">
-          <span class="blog-date">2026年9月20日</span>
-          <div class="card-title">Mod v1.0.0 アプデ情報</div>
-          <p class="card-desc">バグ修正および新機能の追加を行いました。詳細は配布ページのダウンロードリンクよりご確認ください。</p>
-        </div>
-      </div>
+    <!-- ドッキリ用全画面 -->
+    <div class="scare-overlay" id="scareOverlay">
+        <div>逃 ゲ ラ レ ナ イ</div>
+        <div style="font-size: 3vw; margin-top: 20px; color: #fff;">SYSTEM ERROR: CRITICAL FAILURE</div>
     </div>
 
-    <!-- タブ3: 利用規約画面 -->
-    <div id="tab-terms" class="tab-content">
-      <div class="terms-box">
-        <h2>利用規約 (Terms of Service)</h2>
-        <p>本サイトで配布されているMod、アドオン、ツール（以下「コンテンツ」）を利用するにあたり、以下の規約を遵守してください。</p>
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const mainCard = document.getElementById('mainCard');
+        const scareOverlay = document.getElementById('scareOverlay');
+        
+        let escapeCount = 0;
 
-        <h3>1. 許可されること（OK）</h3>
-        <ul>
-          <li>個人利用およびマルチプレイサーバーでの使用</li>
-          <li>YouTubeや配信等での動画投稿・商用利用（動画の収益化OK）</li>
-          <li>本サイトのURLを明記した上での紹介</li>
-        </ul>
+        // 1. ボタンが逃げる仕掛け（3回まで逃げる）
+        noBtn.addEventListener('mouseover', () => {
+            if (escapeCount >= 3) return; // 3回逃げたらそれ以上は逃げない（油断させる）
 
-        <h3>2. 禁止事項（NG）</h3>
-        <ul>
-          <li>コンテンツの二次配布（別のサイトへ直接ファイルを再アップロードすること）</li>
-          <li>自作発言（作者を偽る行為）</li>
-          <li>自作Mod/アドオンのファイル単体での有料販売</li>
-        </ul>
+            // 画面内のランダムな位置に移動
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 40) + 20;
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 40) + 20;
+            
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+            
+            escapeCount++;
+        });
 
-        <h3>3. 免責事項</h3>
-        <p>当コンテンツの使用により発生したいかなるトラブル・損害（データ破損、サーバーエラー等）について、制作者は一切の責任を負いません。必ずバックアップを取ってご利用ください。</p>
-      </div>
-    </div>
+        // 2. ホラー発動関数（偽エラー画面 ＋ 大音量ノイズ ＋ 恐怖画面）
+        function triggerScare() {
+            // 画面をガタガタ揺らす（大人が「PCが壊れた！？」と焦る演出）
+            document.body.classList.add('glitch-active');
+            document.body.style.backgroundColor = '#000';
+            mainCard.style.display = 'none';
 
-  </div>
+            // ブラウザの機能で人工的に不気味な大音量ノイズを生成（mp3ファイル不要）
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const bufferSize = audioCtx.sampleRate * 2; // 2秒間
+                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const data = buffer.getChannelData(0);
+                // ホワイトノイズの生成
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = Math.random() * 2 - 1;
+                }
+                const noise = audioCtx.createBufferSource();
+                noise.buffer = buffer;
+                
+                // 音質を不気味に加工（ローパスフィルタ）
+                const filter = audioCtx.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.setValueAtTime(800, audioCtx.currentTime);
 
-  <footer>
-    <p>&copy; 2026 My Portal. Powered by GitHub Pages.</p>
-  </footer>
+                noise.connect(filter);
+                filter.connect(audioCtx.destination);
+                noise.start();
+            } catch (e) {
+                console.log("Audio play failed");
+            }
 
-  <!-- タブ切り替えJavaScript -->
-  <script>
-    function switchTab(tabName) {
-      // 全タブコンテンツを非表示
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-      // 全ボタンのActive解除
-      document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+            // 0.3秒後に一気に恐怖画面を表示（ジャンプスケア）
+            setTimeout(() => {
+                scareOverlay.classList.add('scare-active');
+            }, 300);
+        }
 
-      // 選択したタブとボタンを有効化
-      document.getElementById('tab-' + tabName).classList.add('active');
-      document.getElementById('btn-' + tabName).classList.add('active');
-    }
-  </script>
+        // 3. 発動トリガー（諦めて「はい」を押すか、4回目に「いいえ」をクリックした時）
+        yesBtn.addEventListener('click', triggerScare);
+        noBtn.addEventListener('click', triggerScare);
+    </script>
 </body>
 </html>
